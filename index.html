@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蘭亭集序 · 學習地圖</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ma-shan-zheng/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-tc/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/long-cang/index.css">
+<style>
+:root{
+  --paper:#fdf8ef;
+  --paper-2:#fffdf7;
+  --paper-3:#f7efe0;
+  --ink:#2f2c28;
+  --ink-soft:#5c574f;
+  --ink-faint:#8c8578;
+  --cinnabar:#c8352b;
+  --cinnabar-lt:#e0574a;
+  --gold:#c9a227;
+  --gold-lt:#e6c65c;
+  --jade:#6e9b7c;
+  --jade-lt:#a8ccb2;
+  --water:#9dc0d0;
+  --line:rgba(47,44,40,.14);
+  --shadow-s:0 2px 10px rgba(90,70,40,.08);
+  --shadow-m:0 12px 34px rgba(90,70,40,.13);
+  --shadow-l:0 26px 60px rgba(80,60,30,.18);
+  --serif:"Noto Serif TC","Songti TC",serif;
+  --brush:"Ma Shan Zheng","Noto Serif TC",serif;
+  --hand:"Long Cang","Ma Shan Zheng",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(1200px 600px at 12% -5%, rgba(230,198,92,.20), transparent 60%),
+    radial-gradient(900px 500px at 92% 8%, rgba(168,204,178,.22), transparent 62%),
+    radial-gradient(1000px 700px at 50% 110%, rgba(200,53,43,.07), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.28'/%3E%3C/svg%3E");
+  line-height:1.85;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(200,53,43,.18)}
+
+/* ============ 通用元件 ============ */
+.wrap{width:min(1180px,92vw);margin-inline:auto}
+.seal{
+  display:inline-grid;place-items:center;
+  width:34px;height:34px;border-radius:6px;
+  background:linear-gradient(145deg,var(--cinnabar-lt),var(--cinnabar));
+  color:#fff8ee;font-family:var(--brush);font-size:20px;line-height:1;
+  box-shadow:0 3px 10px rgba(200,53,43,.35), inset 0 0 0 2px rgba(255,255,255,.25);
+}
+.sec-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--brush);font-size:clamp(2rem,4.4vw,3rem);letter-spacing:.08em;line-height:1.2}
+.sec-head .en{font-size:.74rem;letter-spacing:.34em;color:var(--ink-faint);text-transform:uppercase;padding-bottom:.5rem}
+.sec-sub{color:var(--ink-soft);max-width:62ch;margin-bottom:34px;font-size:1.02rem}
+.hr-brush{height:3px;width:120px;border-radius:3px;background:linear-gradient(90deg,var(--cinnabar),var(--gold),transparent)}
+section{position:relative;padding:88px 0}
+.tag{
+  display:inline-block;font-size:.74rem;letter-spacing:.14em;padding:3px 11px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.6);color:var(--ink-soft)
+}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:12px 24px;border-radius:999px;font-size:.95rem;letter-spacing:.08em;
+  transition:.28s cubic-bezier(.2,.7,.3,1);border:1px solid transparent;white-space:nowrap
+}
+.btn-primary{background:linear-gradient(135deg,var(--cinnabar-lt),var(--cinnabar));color:#fff8ee;box-shadow:0 10px 24px rgba(200,53,43,.3)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(200,53,43,.38)}
+.btn-ghost{border-color:rgba(47,44,40,.24);color:var(--ink);background:rgba(255,255,255,.55)}
+.btn-ghost:hover{border-color:var(--gold);color:#8a6b12;transform:translateY(-3px);background:#fff}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ 導覽列 ============ */
+header.nav{
+  position:sticky;top:0;z-index:80;
+  background:rgba(253,248,239,.82);backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s
+}
+header.nav.scrolled{box-shadow:0 8px 26px rgba(90,70,40,.1)}
+.nav-in{display:flex;align-items:center;gap:22px;height:70px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--brush);font-size:1.42rem;letter-spacing:.1em}
+.brand small{font-family:var(--serif);font-size:.66rem;letter-spacing:.24em;color:var(--ink-faint);display:block;margin-top:-4px}
+.nav-links{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav-links a{
+  padding:8px 15px;border-radius:999px;font-size:.9rem;letter-spacing:.1em;color:var(--ink-soft);
+  transition:.24s;position:relative
+}
+.nav-links a:hover{color:var(--cinnabar);background:rgba(200,53,43,.07)}
+.nav-links a.active{color:#fff;background:linear-gradient(135deg,var(--cinnabar-lt),var(--cinnabar))}
+.nav-prog{
+  display:flex;align-items:center;gap:9px;padding:6px 14px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(230,198,92,.28),rgba(168,204,178,.3));
+  border:1px solid rgba(201,162,39,.35);font-size:.82rem;letter-spacing:.06em;color:#7a5f10
+}
+.nav-prog b{font-family:var(--brush);font-size:1.05rem;color:var(--cinnabar)}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;place-items:center}
+.burger span{display:block;width:19px;height:2px;background:var(--ink);margin:2.5px auto;border-radius:2px;transition:.3s}
+.mobile-menu{display:none;flex-direction:column;gap:4px;padding:12px 0 18px;border-top:1px solid var(--line)}
+.mobile-menu a{padding:11px 14px;border-radius:12px;font-size:.95rem;letter-spacing:.1em}
+.mobile-menu a:hover{background:rgba(200,53,43,.08);color:var(--cinnabar)}
+
+/* ============ HERO ============ */
+.hero{padding:60px 0 70px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:center}
+.hero-kicker{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.hero-kicker span{font-size:.78rem;letter-spacing:.32em;color:var(--cinnabar);text-transform:uppercase}
+.hero-kicker i{flex:1;height:1px;background:linear-gradient(90deg,rgba(200,53,43,.5),transparent);max-width:110px}
+h1.hero-title{
+  font-family:var(--brush);font-weight:400;
+  font-size:clamp(3.1rem,8.4vw,6rem);line-height:1.06;letter-spacing:.04em;margin-bottom:6px
+}
+h1.hero-title .accent{
+  background:linear-gradient(180deg,var(--cinnabar-lt),var(--cinnabar) 55%,#8f2019);
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.hero-sub-t{font-family:var(--brush);font-size:clamp(1.3rem,2.6vw,1.85rem);color:var(--gold);letter-spacing:.22em;margin-bottom:20px}
+.hero-quote{
+  font-family:var(--hand);font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:2;color:var(--ink-soft);
+  padding:16px 22px;border-left:3px solid rgba(200,53,43,.5);
+  background:linear-gradient(90deg,rgba(255,255,255,.7),rgba(255,255,255,0));border-radius:0 14px 14px 0;margin-bottom:26px
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{
+  background:rgba(255,255,255,.66);border:1px solid var(--line);border-radius:16px;padding:14px 12px;text-align:center;
+  transition:.3s;box-shadow:var(--shadow-s)
+}
+.stat:hover{transform:translateY(-4px);border-color:rgba(201,162,39,.5);box-shadow:var(--shadow-m)}
+.stat b{display:block;font-family:var(--brush);font-size:1.9rem;color:var(--cinnabar);line-height:1.2}
+.stat span{font-size:.76rem;letter-spacing:.1em;color:var(--ink-faint)}
+.hero-art{position:relative}
+.hero-art .frame{
+  position:relative;border-radius:26px;overflow:hidden;
+  background:linear-gradient(180deg,#fffdf6,#f6f1e4);
+  border:1px solid rgba(201,162,39,.35);
+  box-shadow:var(--shadow-l);padding:10px
+}
+.hero-art .frame::after{content:"";position:absolute;inset:10px;border:1px solid rgba(200,53,43,.18);border-radius:18px;pointer-events:none}
+#petals{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);border-radius:18px;pointer-events:none}
+.hero-seal{
+  position:absolute;right:-10px;bottom:-14px;width:78px;height:78px;border-radius:12px;
+  background:linear-gradient(145deg,var(--cinnabar-lt),#a92a20);color:#fff4e6;
+  display:grid;place-items:center;text-align:center;font-family:var(--brush);font-size:1.5rem;line-height:1.1;
+  box-shadow:0 14px 30px rgba(200,53,43,.34), inset 0 0 0 3px rgba(255,255,255,.22);
+  transform:rotate(-6deg);letter-spacing:.04em
+}
+.scroll-hint{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:44px;color:var(--ink-faint);font-size:.8rem;letter-spacing:.24em}
+.scroll-hint .mouse{width:22px;height:34px;border:1.6px solid var(--ink-faint);border-radius:12px;position:relative}
+.scroll-hint .mouse::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;border-radius:3px;background:var(--cinnabar);transform:translateX(-50%);animation:wheel 1.8s infinite}
+@keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+/* ============ 背景速覽 ============ */
+.bg-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.tile{
+  position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:22px 18px;
+  box-shadow:var(--shadow-s);transition:.34s cubic-bezier(.2,.7,.3,1);overflow:hidden
+}
+.tile::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(230,198,92,.16),transparent 55%);opacity:0;transition:.34s}
+.tile:hover{transform:translateY(-6px);box-shadow:var(--shadow-m);border-color:rgba(201,162,39,.45)}
+.tile:hover::before{opacity:1}
+.tile .k{font-size:.74rem;letter-spacing:.2em;color:var(--cinnabar);margin-bottom:8px;position:relative}
+.tile .v{font-family:var(--brush);font-size:1.42rem;line-height:1.5;position:relative}
+.tile .d{font-size:.82rem;color:var(--ink-faint);margin-top:6px;position:relative}
+
+/* ============ 學習地圖 ============ */
+.map-shell{
+  position:relative;background:
+    radial-gradient(700px 340px at 20% 10%, rgba(168,204,178,.24), transparent 65%),
+    radial-gradient(600px 320px at 85% 90%, rgba(157,192,208,.24), transparent 65%),
+    linear-gradient(180deg,#fffdf7,#f8f2e5);
+  border:1px solid rgba(201,162,39,.35);border-radius:28px;padding:26px;box-shadow:var(--shadow-m);overflow:hidden
+}
+.map-shell .corner{position:absolute;width:44px;height:44px;border:2px solid rgba(200,53,43,.35);pointer-events:none}
+.map-shell .corner.tl{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.map-shell .corner.tr{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+.map-shell .corner.bl{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 8px}
+.map-shell .corner.br{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.map-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px;padding:0 8px}
+.map-head h3{font-family:var(--brush);font-size:1.6rem;letter-spacing:.12em}
+.map-head p{font-size:.86rem;color:var(--ink-faint)}
+.map-wrap{position:relative;aspect-ratio:1000/620;margin-top:6px}
+.map-svg{position:absolute;inset:0;width:100%;height:100%}
+.node{position:absolute;transform:translate(-50%,-50%);z-index:3}
+.node .dot{
+  position:relative;width:60px;height:60px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fffdf7,#f4ead6);
+  border:2px solid var(--cinnabar);display:grid;place-items:center;
+  font-family:var(--brush);font-size:1.5rem;color:var(--cinnabar);
+  box-shadow:0 8px 20px rgba(200,53,43,.22);transition:.32s cubic-bezier(.2,.7,.3,1)
+}
+.node .dot::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1.5px dashed rgba(200,53,43,.42);animation:spin 16s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.node:hover .dot{transform:translateY(-5px) scale(1.07);box-shadow:0 16px 30px rgba(200,53,43,.34);border-color:var(--gold)}
+.node.done .dot{background:linear-gradient(140deg,var(--gold-lt),var(--gold));border-color:#a8851a;color:#fff;box-shadow:0 10px 24px rgba(201,162,39,.4)}
+.node.done .dot::after{border-color:rgba(201,162,39,.5)}
+.node .label{
+  position:absolute;left:50%;transform:translateX(-50%);width:186px;
+  background:rgba(255,253,247,.94);border:1px solid var(--line);border-radius:14px;
+  padding:10px 12px;box-shadow:var(--shadow-s);transition:.3s;backdrop-filter:blur(4px)
+}
+.node.up .label{bottom:calc(100% + 22px)}
+.node.down .label{top:calc(100% + 22px)}
+.node.right .label{left:auto;right:-16px;transform:none}
+.node:hover .label{border-color:rgba(201,162,39,.6);box-shadow:var(--shadow-m);transform:translateX(-50%) translateY(-3px)}
+.node.right:hover .label{transform:translateY(-3px)}
+.node .label .t{font-family:var(--brush);font-size:1.06rem;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:6px}
+.node .label .t em{font-style:normal;font-size:.68rem;letter-spacing:.14em;color:#fff;background:var(--jade);padding:1px 7px;border-radius:999px}
+.node .label .s{font-size:.76rem;color:var(--ink-faint);letter-spacing:.06em}
+.node .label .ok{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#fff;display:none;place-items:center;font-size:.75rem;box-shadow:0 4px 10px rgba(201,162,39,.5)}
+.node.done .label .ok{display:grid}
+.map-legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;padding:16px 8px 4px;font-size:.8rem;color:var(--ink-faint)}
+.map-legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.map-seal{position:absolute;right:22px;bottom:16px;width:62px;height:62px;border-radius:10px;background:linear-gradient(145deg,#e0574a,#a92a20);color:#fff3e4;display:grid;place-items:center;font-family:var(--brush);font-size:1.1rem;text-align:center;line-height:1.15;transform:rotate(5deg);box-shadow:0 10px 22px rgba(200,53,43,.3),inset 0 0 0 2px rgba(255,255,255,.22);z-index:4}
+.flow{stroke-dasharray:14 16;animation:flow 3.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-60}}
+.cloud{animation:drift 26s ease-in-out infinite alternate}
+.cloud.c2{animation-duration:34s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-16px)}to{transform:translateX(22px)}}
+
+/* ============ 資源卡片 ============ */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{
+  position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:22px;padding:24px 22px 20px;
+  box-shadow:var(--shadow-s);transition:.36s cubic-bezier(.2,.7,.3,1);display:flex;flex-direction:column;overflow:hidden
+}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cinnabar),var(--gold),var(--jade));opacity:.75}
+.card:hover{transform:translateY(-8px);box-shadow:var(--shadow-l);border-color:rgba(201,162,39,.5)}
+.card-top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.card-no{
+  width:46px;height:46px;border-radius:14px;flex:none;display:grid;place-items:center;
+  font-family:var(--brush);font-size:1.35rem;color:#fff;
+  background:linear-gradient(140deg,#d9534a,#a92a20);box-shadow:0 8px 18px rgba(200,53,43,.28)
+}
+.card h3{font-family:var(--brush);font-size:1.4rem;letter-spacing:.06em;line-height:1.35}
+.card .meta{font-size:.76rem;color:var(--ink-faint);letter-spacing:.1em}
+.card p{font-size:.93rem;color:var(--ink-soft);margin-bottom:14px;flex:1}
+.points{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.points span{font-size:.74rem;padding:3px 10px;border-radius:999px;background:rgba(110,155,124,.13);color:#4a7058;border:1px solid rgba(110,155,124,.28)}
+.card-actions{display:flex;gap:9px;align-items:center;border-top:1px dashed var(--line);padding-top:15px}
+.btn-sm{padding:9px 16px;font-size:.84rem;border-radius:999px;letter-spacing:.06em;transition:.26s}
+.btn-open{background:linear-gradient(135deg,var(--cinnabar-lt),var(--cinnabar));color:#fff8ee;box-shadow:0 6px 14px rgba(200,53,43,.26)}
+.btn-open:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(200,53,43,.34)}
+.btn-check{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink-faint);border:1px solid var(--line);padding:8px 13px;border-radius:999px;background:#fff;transition:.26s}
+.btn-check:hover{border-color:var(--gold);color:#8a6b12}
+.btn-check.on{background:linear-gradient(135deg,rgba(230,198,92,.35),rgba(201,162,39,.25));border-color:rgba(201,162,39,.6);color:#7a5f10;font-weight:600}
+.btn-check .box{width:15px;height:15px;border-radius:5px;border:1.6px solid currentColor;display:grid;place-items:center;font-size:10px;line-height:1}
+.card.done-card{border-color:rgba(201,162,39,.55);background:linear-gradient(180deg,#fffdf5,#fdf6e6)}
+.ribbon{position:absolute;top:16px;right:-34px;transform:rotate(38deg);background:var(--gold);color:#fff;font-size:.7rem;letter-spacing:.16em;padding:4px 36px;box-shadow:0 4px 10px rgba(201,162,39,.4);display:none}
+.card.done-card .ribbon{display:block}
+
+/* ============ 名句 ============ */
+.quotes{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.q{
+  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,253,247,.7));
+  border:1px solid var(--line);border-radius:20px;padding:22px 20px;position:relative;overflow:hidden;
+  transition:.34s cubic-bezier(.2,.7,.3,1)
+}
+.q:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:var(--shadow-m);border-color:rgba(200,53,43,.35)}
+.q .mark{position:absolute;top:6px;right:12px;font-family:var(--brush);font-size:4.6rem;color:rgba(200,53,43,.09);line-height:1}
+.q .qt{font-family:var(--brush);font-size:1.28rem;line-height:1.9;letter-spacing:.04em;margin-bottom:12px;position:relative}
+.q .qa{font-size:.85rem;color:var(--ink-soft);position:relative;border-top:1px dashed var(--line);padding-top:11px}
+.q .qtag{position:absolute;top:16px;left:0;width:5px;height:26px;border-radius:0 4px 4px 0;background:var(--cinnabar)}
+.q:nth-child(2n) .qtag{background:var(--jade)}
+.q:nth-child(3n) .qtag{background:var(--gold)}
+
+/* ============ 進度 ============ */
+.prog-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:stretch}
+.prog-ring{
+  background:linear-gradient(160deg,#fffdf7,#f7f0e1);border:1px solid rgba(201,162,39,.4);border-radius:26px;
+  padding:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:var(--shadow-s)
+}
+.ring-box{position:relative;width:190px;height:190px}
+.ring-box svg{transform:rotate(-90deg)}
+.ring-box .val{position:absolute;inset:0;display:grid;place-items:center;flex-direction:column}
+.ring-box .val b{font-family:var(--brush);font-size:2.9rem;color:var(--cinnabar);line-height:1}
+.ring-box .val span{font-size:.76rem;letter-spacing:.2em;color:var(--ink-faint)}
+.prog-note{font-family:var(--hand);font-size:1.3rem;color:var(--ink-soft);margin-top:14px}
+.prog-list{background:var(--paper-2);border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow-s)}
+.prog-list h4{font-family:var(--brush);font-size:1.3rem;letter-spacing:.1em;margin-bottom:14px}
+.pitem{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;transition:.26s;cursor:pointer;border:1px solid transparent}
+.pitem:hover{background:rgba(230,198,92,.14);border-color:rgba(201,162,39,.32)}
+.pitem .pno{width:32px;height:32px;border-radius:10px;flex:none;display:grid;place-items:center;font-family:var(--brush);font-size:1.05rem;background:rgba(200,53,43,.1);color:var(--cinnabar);transition:.26s}
+.pitem.on .pno{background:linear-gradient(140deg,var(--gold-lt),var(--gold));color:#fff}
+.pitem .pt{font-size:.98rem;letter-spacing:.04em}
+.pitem .pt small{display:block;font-size:.75rem;color:var(--ink-faint);letter-spacing:.12em}
+.pitem.on .pt{color:#8a6b12}
+.pitem .ptick{margin-left:auto;width:22px;height:22px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:.72rem;color:transparent;transition:.26s}
+.pitem.on .ptick{background:var(--jade);border-color:var(--jade);color:#fff}
+.prog-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.btn-reset{font-size:.82rem;color:var(--ink-faint);border:1px solid var(--line);padding:8px 15px;border-radius:999px;background:#fff;transition:.26s}
+.btn-reset:hover{color:var(--cinnabar);border-color:rgba(200,53,43,.4)}
+
+/* ============ 短片 ============ */
+.video-shell{display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:center}
+.video-frame{
+  position:relative;border-radius:26px;overflow:hidden;padding:12px;
+  background:linear-gradient(140deg,rgba(200,53,43,.14),rgba(230,198,92,.2));
+  border:1px solid rgba(201,162,39,.45);box-shadow:var(--shadow-l)
+}
+.video-frame .inner{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;background:#1b1a18}
+.video-frame iframe{width:100%;height:100%;border:0;display:block}
+.video-side h3{font-family:var(--brush);font-size:1.9rem;letter-spacing:.1em;margin-bottom:10px}
+.video-side p{color:var(--ink-soft);font-size:.95rem;margin-bottom:18px}
+.video-side ul{list-style:none;margin-bottom:22px}
+.video-side li{padding:9px 0 9px 26px;position:relative;font-size:.92rem;color:var(--ink-soft);border-bottom:1px dashed var(--line)}
+.video-side li::before{content:"觴";position:absolute;left:0;top:8px;font-family:var(--brush);color:var(--cinnabar);font-size:1rem}
+
+/* ============ 指南 ============ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:26px 22px;position:relative;box-shadow:var(--shadow-s);transition:.34s}
+.step:hover{transform:translateY(-6px);box-shadow:var(--shadow-m)}
+.step .n{font-family:var(--brush);font-size:3.2rem;color:rgba(200,53,43,.14);line-height:1;position:absolute;top:12px;right:18px}
+.step h4{font-family:var(--brush);font-size:1.32rem;letter-spacing:.1em;margin-bottom:8px}
+.step p{font-size:.9rem;color:var(--ink-soft)}
+
+/* ============ Footer ============ */
+footer{background:linear-gradient(180deg,rgba(47,44,40,.03),rgba(47,44,40,.07));border-top:1px solid var(--line);padding:54px 0 30px;margin-top:40px}
+.foot-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:30px}
+.foot-grid h5{font-family:var(--brush);font-size:1.2rem;letter-spacing:.14em;margin-bottom:12px;color:var(--ink)}
+.foot-grid p,.foot-grid a{font-size:.88rem;color:var(--ink-soft)}
+.foot-links a{display:block;padding:5px 0;transition:.24s}
+.foot-links a:hover{color:var(--cinnabar);transform:translateX(5px)}
+.foot-bottom{margin-top:32px;padding-top:20px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--ink-faint);letter-spacing:.08em}
+
+/* ============ Modal ============ */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:22px}
+.modal.open{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(40,34,28,.55);backdrop-filter:blur(6px);animation:fade .3s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-box{
+  position:relative;width:min(980px,100%);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
+  background:var(--paper-2);border:1px solid rgba(201,162,39,.5);border-radius:24px;box-shadow:var(--shadow-l);
+  animation:pop .42s cubic-bezier(.2,.8,.3,1)
+}
+@keyframes pop{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+.modal-head{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(230,198,92,.18),rgba(255,253,247,0))}
+.modal-head .card-no{width:42px;height:42px;font-size:1.2rem;border-radius:12px}
+.modal-head h3{font-family:var(--brush);font-size:1.5rem;letter-spacing:.08em;line-height:1.3}
+.modal-head .meta{font-size:.76rem;color:var(--ink-faint);letter-spacing:.12em}
+.modal-close{margin-left:auto;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font-size:1.1rem;color:var(--ink-soft);transition:.26s}
+.modal-close:hover{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar);transform:rotate(90deg)}
+.modal-body{padding:22px 24px;overflow:auto}
+.modal-body .desc{font-size.95rem;color:var(--ink-soft);margin-bottom:16px}
+.preview{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#f3ede1;aspect-ratio:16/10}
+.preview iframe{width:100%;height:100%;border:0}
+.preview .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--ink-faint);font-size:.9rem;padding:20px;gap:10px}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(200,53,43,.22);border-top-color:var(--cinnabar);animation:sp .9s linear infinite;margin:0 auto 10px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.modal-foot{display:flex;gap:12px;align-items:center;padding:16px 24px;border-top:1px solid var(--line);background:rgba(247,239,224,.6);flex-wrap:wrap}
+.modal-foot .hint{font-size:.78rem;color:var(--ink-faint);margin-left:auto}
+
+/* ============ Toast / top ============ */
+#toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,80px);z-index:300;background:linear-gradient(135deg,#3a352e,#2b2723);color:#f6ecd8;padding:13px 24px;border-radius:999px;font-size:.9rem;letter-spacing:.06em;box-shadow:var(--shadow-l);opacity:0;transition:.45s cubic-bezier(.2,.8,.3,1);display:flex;align-items:center;gap:10px}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast i{width:9px;height:9px;border-radius:50%;background:var(--gold-lt);box-shadow:0 0 0 4px rgba(230,198,92,.25)}
+#toTop{position:fixed;right:22px;bottom:26px;z-index:90;width:50px;height:50px;border-radius:16px;background:linear-gradient(140deg,var(--cinnabar-lt),var(--cinnabar));color:#fff;display:grid;place-items:center;font-size:1.1rem;box-shadow:0 12px 26px rgba(200,53,43,.34);opacity:0;pointer-events:none;transition:.35s}
+#toTop.show{opacity:1;pointer-events:auto}
+#toTop:hover{transform:translateY(-4px)}
+
+/* ============ RWD ============ */
+@media(max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .bg-tiles{grid-template-columns:repeat(3,1fr)}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .quotes{grid-template-columns:repeat(2,1fr)}
+  .video-shell{grid-template-columns:1fr}
+  .prog-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:820px){
+  .nav-links{display:none}
+  .burger{display:grid;margin-left:auto}
+  .nav-prog{display:none}
+  section{padding:62px 0}
+  .steps{grid-template-columns:1fr}
+  .map-wrap{aspect-ratio:auto;display:flex;flex-direction:column;gap:14px;padding:26px 6px 10px 34px}
+  .map-wrap::before{content:"";position:absolute;left:16px;top:24px;bottom:10px;width:2px;background:repeating-linear-gradient(180deg,rgba(200,53,43,.5) 0 8px,transparent 8px 16px)}
+  .map-svg{display:none}
+  .node{position:relative;left:auto!important;top:auto!important;transform:none;width:100%;display:flex;align-items:center;gap:14px}
+  .node .label{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:auto;flex:1}
+  .node:hover .label{transform:none}
+  .node .dot{width:52px;height:52px;flex:none;font-size:1.3rem}
+  .map-seal{display:none}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .bg-tiles{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+  .quotes{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">
+      <span class="seal">蘭</span>
+      <span>蘭亭集序<small>LEARNING MAP · 學習地圖</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#map" class="active">學習地圖</a>
+      <a href="#stations">六站資源</a>
+      <a href="#quotes">名句賞析</a>
+      <a href="#progress">學習進度</a>
+      <a href="#video">影像短片</a>
+    </nav>
+    <div class="nav-prog" title="目前學習進度">
+      <span>旅程進度</span><b id="navProg">0/6</b>
+    </div>
+    <button class="burger" id="burger" aria-label="選單"><span></span><span></span><span></span></button>
+  </div>
+  <div class="wrap"><div class="mobile-menu" id="mobileMenu"></div></div>
+</header>
+
+<!-- ================= HERO ================= -->
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <div class="hero-kicker"><span>永和九年 · 暮春之初</span><i></i></div>
+      <h1 class="hero-title">蘭亭集序<br><span class="accent">學習地圖</span></h1>
+      <div class="hero-sub-t">一 圖 盡 覽 六 站 學 習 旅 程</div>
+      <p class="hero-quote">「永和九年，歲在癸丑，暮春之初，會于會稽山陰之蘭亭，修禊事也。」<br>沿著曲水一路前行，從文本、思辨到遊戲與影像，逐站體驗這場千年雅集。</p>
+      <div class="hero-cta">
+        <a href="#map" class="btn btn-primary">展開學習地圖 ➜</a>
+        <button class="btn btn-ghost" id="heroVideo">▶ 觀賞蘭亭短片</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>6</b><span>學習站點</span></div>
+        <div class="stat"><b>5</b><span>互動網站</span></div>
+        <div class="stat"><b>3</b><span>遊戲體驗</span></div>
+        <div class="stat"><b>1</b><span>影像短片</span></div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="frame">
+        <svg viewBox="0 0 800 500" width="100%" role="img" aria-label="蘭亭雅集山水插畫">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fffdf5"/><stop offset="45%" stop-color="#fdf3e2"/><stop offset="100%" stop-color="#eef4f0"/>
+            </linearGradient>
+            <linearGradient id="mFar" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#c3d3dd"/><stop offset="100%" stop-color="#e6eef0" stop-opacity=".25"/>
+            </linearGradient>
+            <linearGradient id="mMid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#9db8b0"/><stop offset="100%" stop-color="#dce8df" stop-opacity=".4"/>
+            </linearGradient>
+            <linearGradient id="mNear" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7fa08c"/><stop offset="100%" stop-color="#cfe0d1" stop-opacity=".55"/>
+            </linearGradient>
+            <linearGradient id="waterG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#cfe3ec"/><stop offset="50%" stop-color="#b6d4e0"/><stop offset="100%" stop-color="#dcecf1"/>
+            </linearGradient>
+            <radialGradient id="sunG"><stop offset="0%" stop-color="#ffe9a8" stop-opacity=".95"/><stop offset="100%" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient>
+            <filter id="soft"><feGaussianBlur stdDeviation="9"/></filter>
+          </defs>
+
+          <rect width="800" height="500" fill="url(#sky)"/>
+          <circle cx="600" cy="118" r="120" fill="url(#sunG)"/>
+          <circle cx="600" cy="118" r="40" fill="#f7d774" opacity=".55"/>
+
+          <!-- 遠山 -->
+          <path d="M0,236 C70,206 118,224 168,196 C214,170 250,192 300,178 C356,162 392,196 448,186 C506,176 546,206 604,196 C664,186 716,206 800,190 L800,500 L0,500 Z" fill="url(#mFar)" opacity=".85"/>
+          <!-- 雲霧 -->
+          <g class="cloud" filter="url(#soft)" opacity=".85">
+            <ellipse cx="210" cy="232" rx="150" ry="20" fill="#fff"/>
+            <ellipse cx="600" cy="216" rx="170" ry="17" fill="#fff" opacity=".85"/>
+          </g>
+          <!-- 中山 -->
+          <path d="M0,300 C60,268 104,290 158,262 C206,236 244,266 296,254 C352,240 386,276 442,266 C500,256 534,286 596,276 C654,266 712,290 800,272 L800,500 L0,500 Z" fill="url(#mMid)"/>
+          <g class="cloud c2" filter="url(#soft)" opacity=".7">
+            <ellipse cx="420" cy="300" rx="200" ry="16" fill="#fff"/>
+          </g>
+          <!-- 近山 -->
+          <path d="M0,362 C70,336 130,356 190,336 C248,318 300,348 356,340 C420,330 460,358 520,350 C586,340 640,364 700,354 C744,346 776,358 800,352 L800,500 L0,500 Z" fill="url(#mNear)"/>
+
+          <!-- 溪流 -->
+          <path d="M-10,438 C120,414 210,452 320,440 C430,428 500,462 610,448 C700,436 760,458 812,448 L812,510 L-10,510 Z" fill="url(#waterG)"/>
+          <path d="M30,452 C140,438 220,462 330,454" stroke="#fff" stroke-width="2.4" fill="none" opacity=".8"/>
+          <path d="M400,462 C500,452 570,470 680,460" stroke="#fff" stroke-width="2" fill="none" opacity=".65"/>
+
+          <!-- 浮觴 -->
+          <g>
+            <ellipse cx="238" cy="452" rx="13" ry="4.6" fill="#d9b26a"/>
+            <path d="M228,450 q10,-7 20,0" fill="#e7c887"/>
+            <ellipse cx="512" cy="464" rx="11" ry="4" fill="#d9b26a"/>
+            <path d="M503,462 q9,-6 18,0" fill="#e7c887"/>
+          </g>
+
+          <!-- 亭 -->
+          <g transform="translate(196,388)">
+            <ellipse cx="0" cy="34" rx="86" ry="12" fill="#5f7d68" opacity=".28"/>
+            <path d="M-62,20 L62,20 L70,32 L-70,32 Z" fill="#a6825e"/>
+            <path d="M-58,20 L58,20 L58,16 L-58,16 Z" fill="#8d6c4c"/>
+            <rect x="-38" y="-16" width="5" height="34" fill="#8b4a3a"/>
+            <rect x="33" y="-16" width="5" height="34" fill="#8b4a3a"/>
+            <rect x="-3" y="-16" width="4" height="34" fill="#8b4a3a" opacity=".55"/>
+            <path d="M0,-54 L-56,-16 Q-70,-10 -82,-20 L-68,-26 Q-36,-46 0,-54 Z" fill="#5c6f79"/>
+            <path d="M0,-54 L56,-16 Q70,-10 82,-20 L68,-26 Q36,-46 0,-54 Z" fill="#4e6069"/>
+            <path d="M-58,-17 Q0,-48 58,-17" fill="none" stroke="#3c4c55" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="0" cy="-57" r="4.5" fill="#c8352b"/>
+          </g>
+
+          <!-- 竹 -->
+          <g stroke-linecap="round">
+            <g transform="translate(690,470)">
+              <path d="M0,0 C-6,-56 6,-108 -2,-168" stroke="#6e9b7c" stroke-width="6" fill="none"/>
+              <path d="M-2,-168 q-24,-14 -44,-8 q20,16 44,10z" fill="#7fae8c"/>
+              <path d="M0,-130 q26,-16 48,-8 q-24,18 -48,10z" fill="#88b894"/>
+              <path d="M-3,-92 q-26,-12 -44,-4 q20,14 44,8z" fill="#7fae8c"/>
+            </g>
+            <g transform="translate(740,478)">
+              <path d="M0,0 C4,-48 -6,-92 2,-140" stroke="#7ba98a" stroke-width="5" fill="none"/>
+              <path d="M2,-140 q22,-14 42,-6 q-22,14 -42,8z" fill="#8dbb99"/>
+              <path d="M0,-100 q-22,-12 -40,-4 q18,12 40,8z" fill="#82b18f"/>
+            </g>
+            <g transform="translate(60,478)">
+              <path d="M0,0 C-4,-46 4,-88 -2,-132" stroke="#7ba98a" stroke-width="5" fill="none"/>
+              <path d="M-2,-132 q-22,-12 -40,-4 q18,12 40,8z" fill="#8dbb99"/>
+              <path d="M0,-96 q22,-14 42,-6 q-22,14 -42,8z" fill="#82b18f"/>
+            </g>
+          </g>
+
+          <!-- 飛鳥 -->
+          <g stroke="#7b7268" stroke-width="2" fill="none" opacity=".65" stroke-linecap="round">
+            <path d="M330,120 q8,-8 16,0 q8,-8 16,0"/>
+            <path d="M386,96 q6,-6 12,0 q6,-6 12,0"/>
+            <path d="M292,150 q5,-5 10,0 q5,-5 10,0"/>
+          </g>
+
+          <!-- 蘭花點綴 -->
+          <g transform="translate(118,462)" opacity=".95">
+            <path d="M0,0 C-14,-18 -20,-34 -16,-46" stroke="#6e9b7c" stroke-width="2.6" fill="none"/>
+            <path d="M0,0 C12,-16 22,-26 34,-30" stroke="#6e9b7c" stroke-width="2.6" fill="none"/>
+            <ellipse cx="-17" cy="-50" rx="7" ry="5" fill="#f0c6cf" transform="rotate(-28 -17 -50)"/>
+            <ellipse cx="-9" cy="-56" rx="6" ry="4.4" fill="#f7d9de"/>
+            <circle cx="-14" cy="-51" r="2.2" fill="#c8352b" opacity=".7"/>
+          </g>
+        </svg>
+        <canvas id="petals"></canvas>
+      </div>
+      <div class="hero-seal">蘭亭<br>雅集</div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span class="mouse"></span> 向 下 展 開 學 習 之 旅</div>
+</section>
+
+<!-- ================= 背景速覽 ================= -->
+<section id="intro">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">序</span>
+      <h2>蘭亭雅集 · 背景速覽</h2>
+      <span class="en">Background</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <p class="sec-sub reveal">出發前先掌握五個關鍵字，之後在六個學習站點中，就能迅速連結文本、時代與情境。</p>
+    <div class="bg-tiles">
+      <div class="tile reveal"><div class="k">作 者</div><div class="v">王羲之</div><div class="d">東晉書聖，時年約五十</div></div>
+      <div class="tile reveal"><div class="k">年 代</div><div class="v">永和九年</div><div class="d">西元 353 年，歲在癸丑</div></div>
+      <div class="tile reveal"><div class="k">地 點</div><div class="v">會稽山陰</div><div class="d">蘭亭，崇山峻嶺、茂林修竹</div></div>
+      <div class="tile reveal"><div class="k">事 件</div><div class="v">修禊雅集</div><div class="d">流觴曲水、列坐其次、賦詩</div></div>
+      <div class="tile reveal"><div class="k">地 位</div><div class="v">行書第一</div><div class="d">譽為「天下第一行書」</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 學習地圖 ================= -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">圖</span>
+      <h2>曲水流觴 · 學習地圖</h2>
+      <span class="en">Learning Map</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <p class="sec-sub reveal">六個站點依「文本 → 思辨 → 歷史 → 劇情 → 策略 → 影像」的順序串成一條曲水。點擊任一站点即可開啟預覽與說明，完成後可打勾記錄進度。</p>
+
+    <div class="map-shell reveal">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="map-head">
+        <div>
+          <h3>學 習 路 徑 全 覽</h3>
+          <p>自左下「墨啟」出發，一路蜿蜒至右上「流觴」，共六站。</p>
+        </div>
+        <div class="tag" id="mapTag">已完成 0 / 6 站</div>
+      </div>
+
+      <div class="map-wrap" id="mapWrap">
+        <svg class="map-svg" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="river" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#b6d4e0"/><stop offset="55%" stop-color="#a8ccb2"/><stop offset="100%" stop-color="#e6c65c"/>
+            </linearGradient>
+            <linearGradient id="mtn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b9c9c0"/><stop offset="100%" stop-color="#eef2e9" stop-opacity=".1"/>
+            </linearGradient>
+            <filter id="blurM"><feGaussianBlur stdDeviation="5"/></filter>
+          </defs>
+
+          <!-- 遠山剪影 -->
+          <g opacity=".45" filter="url(#blurM)">
+            <path d="M40,250 C110,190 150,220 210,170 C260,128 300,180 360,150 L360,300 L40,300 Z" fill="url(#mtn)"/>
+            <path d="M620,200 C690,140 740,180 800,120 C850,72 900,120 960,96 L960,260 L620,260 Z" fill="url(#mtn)"/>
+            <path d="M330,520 C400,470 450,500 520,462 C580,430 630,470 700,450 L700,570 L330,570 Z" fill="url(#mtn)" opacity=".7"/>
+          </g>
+
+          <!-- 雲紋 -->
+          <g stroke="#cfd9d2" stroke-width="2.4" fill="none" opacity=".75">
+            <path d="M700,420 q24,-20 48,0 q24,20 48,0"/>
+            <path d="M120,180 q22,-18 44,0 q22,18 44,0"/>
+            <path d="M860,470 q20,-16 40,0"/>
+          </g>
+
+          <!-- 水道 -->
+          <path d="M 30 500 C 45 484.7, 78.3 451.3, 120 408 C 161.7 364.7, 225 246, 280 240 C 335 234, 396.7 380, 450 372 C 503.3 364, 548.3 196, 600 192 C 651.7 188, 710 350, 760 348 C 810 346, 864.2 222.2, 900 180 C 935.8 137.8, 962.5 109.2, 975 95"
+                fill="none" stroke="url(#river)" stroke-width="26" stroke-linecap="round" opacity=".33"/>
+          <path d="M 30 500 C 45 484.7, 78.3 451.3, 120 408 C 161.7 364.7, 225 246, 280 240 C 335 234, 396.7 380, 450 372 C 503.3 364, 548.3 196, 600 192 C 651.7 188, 710 350, 760 348 C 810 346, 864.2 222.2, 900 180 C 935.8 137.8, 962.5 109.2, 975 95"
+                fill="none" stroke="#c8352b" stroke-width="2.6" stroke-linecap="round" opacity=".75" class="flow"/>
+          <!-- 起訖 -->
+          <circle cx="30" cy="500" r="7" fill="#fff" stroke="#c8352b" stroke-width="2.4"/>
+          <path d="M968,88 l14,7 -14,7 z" fill="#c9a227"/>
+        </svg>
+
+        <div class="map-seal">曲水<br>流觴</div>
+        <!-- nodes injected -->
+      </div>
+
+      <div class="map-legend">
+        <span><i style="background:#c8352b"></i>學習站點（點擊開啟）</span>
+        <span><i style="background:#c9a227"></i>已完成站點</span>
+        <span><i style="background:#a8ccb2"></i>建議順序：文本 → 思辨 → 歷史 → 劇情 → 策略 → 影像</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 六站資源 ================= -->
+<section id="stations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">站</span>
+      <h2>六站學習資源</h2>
+      <span class="en">Resources</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <p class="sec-sub reveal">所有資源彙整於此：包含五個互動式學習網站與一部影像短片，可依個人需求自由取用，亦建議依照地圖順序完整走過一遍。</p>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- ================= 名句 ================= -->
+<section id="quotes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">句</span>
+      <h2>名句賞析 · 一路拾貝</h2>
+      <span class="en">Key Sentences</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <p class="sec-sub reveal">行經各站時，可對照以下八組名句，掌握由「樂」轉「痛」、終歸「悲」的情感脈絡。</p>
+    <div class="quotes" id="quotes"></div>
+  </div>
+</section>
+
+<!-- ================= 進度 ================= -->
+<section id="progress">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">進</span>
+      <h2>我的學習進度</h2>
+      <span class="en">Progress</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <p class="sec-sub reveal">完成一站即打勾，進度會自動儲存在你的裝置瀏覽器中，下次回來仍在。</p>
+
+    <div class="prog-grid">
+      <div class="prog-ring reveal">
+        <div class="ring-box">
+          <svg width="190" height="190" viewBox="0 0 190 190">
+            <circle cx="95" cy="95" r="80" fill="none" stroke="rgba(47,44,40,.09)" stroke-width="14"/>
+            <circle id="ringBar" cx="95" cy="95" r="80" fill="none" stroke="url(#ringG)" stroke-width="14" stroke-linecap="round"
+                    stroke-dasharray="502.6" stroke-dashoffset="502.6" style="transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.3,1)"/>
+            <defs>
+              <linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#e0574a"/><stop offset="55%" stop-color="#e6c65c"/><stop offset="100%" stop-color="#8fbf9f"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="val"><div><b id="ringPct">0%</b><br><span id="ringCnt">0 / 6 站</span></div></div>
+        </div>
+        <div class="prog-note" id="ringMsg">尚未啟程，點擊地圖出發吧！</div>
+      </div>
+
+      <div class="prog-list reveal">
+        <h4>站 點 檢 核 表</h4>
+        <div id="pList"></div>
+        <div class="prog-foot">
+          <span class="tag" id="progTag">進度儲存於本機瀏覽器</span>
+          <button class="btn-reset" id="resetBtn">↺ 重置全部進度</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 短片 ================= -->
+<section id="video">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">影</span>
+      <h2>蘭亭集序 · 影像短片</h2>
+      <span class="en">Short Film</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <div class="video-shell">
+      <div class="video-frame reveal">
+        <div class="inner">
+          <iframe src="https://www.youtube-nocookie.com/embed/T5KqtU0D9i0" title="蘭亭集序短片" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="video-side reveal">
+        <h3>第 六 站 · 流 觴</h3>
+        <p>以影像收束整趟學習之旅：看著曲水與浮觴在畫面中流動，回想前五站所讀之文、所辨之理、所遊之境。</p>
+        <ul>
+          <li>情境重現：暮春之初、修禊事也</li>
+          <li>書法之美：天下第一行書的筆勢</li>
+          <li>哲思迴響：死生亦大矣，豈不痛哉</li>
+          <li>總回顧：後之視今，亦猶今之視昔</li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="https://youtu.be/T5KqtU0D9i0?si=cE7VVhzFa2QuygcN" target="_blank" rel="noopener">▶ 於 YouTube 觀看</a>
+          <button class="btn btn-ghost" id="videoDone">✓ 標記為已完成</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 指南 ================= -->
+<section id="guide">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="seal">法</span>
+      <h2>如何使用這份地圖</h2>
+      <span class="en">How to Use</span>
+    </div>
+    <div class="hr-brush reveal" style="margin-bottom:18px"></div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">壹</span><h4>循 圖 前 進</h4><p>由第一站「墨啟」開始，依地圖上的曲水順序逐站點選，先在網站中預覽，再決定是否於新視窗深入學習。</p></div>
+      <div class="step reveal"><span class="n">貳</span><h4>隨 時 打 勾</h4><p>每完成一站，於卡片或檢核表中點選「標記完成」，站點會轉為金色印記，右側進度環即時更新。</p></div>
+      <div class="step reveal"><span class="n">參</span><h4>對 照 名 句</h4><p>回到「名句賞析」區，將遊戲與影片中的情境與原文對照，寫下自己的感受，完成一趟完整的學習閉環。</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h5><span class="seal" style="vertical-align:-6px;margin-right:8px">蘭</span>蘭亭集序學習地圖</h5>
+        <p>彙整六個學習資源，以「曲水流觴」為意象串成一條完整學習路徑。<br>願你在明亮的水色與墨色之間，讀懂千年前的那場雅集。</p>
+        <p style="font-family:var(--hand);font-size:1.3rem;color:var(--cinnabar);margin-top:12px">後之覽者，亦將有感於斯文。</p>
+      </div>
+      <div class="foot-links">
+        <h5>學 習 站 點</h5>
+        <div id="footLinks"></div>
+      </div>
+      <div class="foot-links">
+        <h5>快 速 選 單</h5>
+        <a href="#map">曲水流觴 · 學習地圖</a>
+        <a href="#stations">六站學習資源</a>
+        <a href="#quotes">名句賞析</a>
+        <a href="#progress">我的學習進度</a>
+        <a href="#video">影像短片</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 蘭亭集序學習地圖 · 中式書法藝術風格學習網站</span>
+      <span>永和九年 · 歲在癸丑 · 暮春之初</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="card-no" id="mNo">一</div>
+      <div>
+        <h3 id="mTitle">站點名稱</h3>
+        <div class="meta" id="mMeta">類型 · 建議時間</div>
+      </div>
+      <button class="modal-close" data-close aria-label="關閉">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="desc" id="mDesc"></p>
+      <div class="points" id="mPoints" style="margin-bottom:16px"></div>
+      <div class="preview" id="mPreview"></div>
+    </div>
+    <div class="modal-foot">
+      <a class="btn btn-primary" id="mOpen" href="#" target="_blank" rel="noopener">↗ 於新視窗開啟</a>
+      <button class="btn btn-ghost" id="mDone">✓ 標記完成</button>
+      <span class="hint" id="mHint">若內嵌預覽無法顯示，請使用「新視窗開啟」。</span>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><i></i><span id="toastMsg">已完成</span></div>
+<button id="toTop" aria-label="回到頂部">▲</button>
+
+<script>
+/* =============== 資料 =============== */
+const STATIONS = [
+  { id:'p1', no:'一', name:'墨啟', title:'蘭亭集序學習網站', kind:'基礎導覽', time:'20–30 分鐘', type:'web',
+    url:'https://p3688905-bit.github.io/preface1/',
+    desc:'整趟旅程的起點：完整介紹王羲之生平、東晉時代背景與蘭亭雅集的由來，並提供全文注釋、白話翻譯與重點整理，適合第一次接觸〈蘭亭集序〉的學習者。',
+    points:['作者生平','時代背景','全文注釋','白話翻譯','重點整理'], pos:{x:12,y:65.8}, label:'down' },
+  { id:'p2', no:'二', name:'思辨', title:'蘭亭集序邏輯思辨', kind:'深度思辨', time:'25–35 分鐘', type:'web',
+    url:'https://p3688905-bit.github.io/preface2/',
+    desc:'聚焦文章內在的論證結構：從「信可樂也」到「豈不痛哉」再到「悲夫」，逐步拆解情感與說理的轉折，並設計提問引導你形成自己的生死觀與價值判斷。',
+    points:['情感三段轉折','論證結構分析','生死觀辯證','觀點表達練習'], pos:{x:28,y:38.7}, label:'up' },
+  { id:'p3', no:'三', name:'時空', title:'魏晉南北朝沉浸式遊戲（新版）', kind:'歷史情境', time:'30 分鐘以上', type:'web',
+    url:'https://p3688905-bit.github.io/preface3/',
+    desc:'以沉浸式互動遊戲重返魏晉南北朝：在門第、清談、玄學與戰亂之間做出選擇，親身體驗士人的處境與風度，讓課本上的時代背景變得可感可觸。',
+    points:['時代氛圍體驗','士人生活','文化與玄學','情境抉擇'], pos:{x:45,y:60}, label:'down' },
+  { id:'p4', no:'四', name:'曲水', title:'蘭亭集序（Gal Game）', kind:'劇情互動', time:'25–40 分鐘', type:'web',
+    url:'https://p3688905-bit.github.io/preface4/',
+    desc:'以視覺小說形式重現蘭亭雅集：你將與王羲之、謝安等群賢對話，在流觴曲水之間觸發不同分支劇情，讓名句回到它原本發生的場景。',
+    points:['角色扮演','對話劇情','分支選擇','名句情境化'], pos:{x:60,y:31}, label:'up' },
+  { id:'p5', no:'五', name:'志向', title:'蘭亭集序（太閣立志風遊戲）', kind:'策略體驗', time:'30 分鐘以上', type:'web',
+    url:'https://p3688905-bit.github.io/preface5/',
+    desc:'借鏡《太閣立志傳》的養成玩法，以資源分配、任務抉擇與能力提升來詮釋魏晉士人的「志向」，在策略思考中體會「俯仰一世」的處世取捨。',
+    points:['策略養成','任務抉擇','資源分配','人物志向'], pos:{x:76,y:56.1}, label:'down' },
+  { id:'p6', no:'六', name:'流觴', title:'蘭亭集序短片', kind:'影像賞析', time:'約 5–10 分鐘', type:'video',
+    url:'https://youtu.be/T5KqtU0D9i0?si=cE7VVhzFa2QuygcN',
+    embed:'https://www.youtube-nocookie.com/embed/T5KqtU0D9i0',
+    desc:'旅程的終站：以影音重現暮春蘭亭的水色與墨色，搭配書法與朗讀，把前五站的文本、思辨與遊戲體驗收束成一段完整的感受。',
+    points:['影像敘事','情境重現','書法欣賞','學習總回顧'], pos:{x:90,y:29}, label:'up right' }
+];
+
+const QUOTES = [
+  { t:'永和九年，歲在癸丑，暮春之初，會于會稽山陰之蘭亭，修禊事也。', tag:'時地人事', a:'開篇以時間、地點、事件三筆勾勒，簡潔如史筆，卻已為全篇定下「雅集」的基調。' },
+  { t:'群賢畢至，少長咸集。', tag:'人物', a:'八字寫盡與會者的份量與和諧，「賢」與「少長」呼應後文對生命共同的感懷。' },
+  { t:'此地有崇山峻嶺，茂林修竹；又有清流激湍，映帶左右。', tag:'景物', a:'由山而林、由竹而水，視角層層推展，為「流觴曲水」預先佈好舞台。' },
+  { t:'引以為流觴曲水，列坐其次。', tag:'活動', a:'一「引」一「列」，把自然山水轉成人文雅趣，是魏晉風度的具體呈現。' },
+  { t:'仰觀宇宙之大，俯察品類之盛，所以遊目騁懷，足以極視聽之娛，信可樂也。', tag:'樂', a:'由仰俯之視到視聽之娛，情感在此達到第一個高峰——「樂」。' },
+  { t:'及其所之既倦，情隨事遷，感慨係之矣。', tag:'轉', a:'一個「倦」字開啟轉折：樂極而生倦，說明喜悅終究無法恆常。' },
+  { t:'死生亦大矣，豈不痛哉！', tag:'痛', a:'由個人之倦推及人類共同之死生，情感由「樂」翻入「痛」，全文的思想核心。' },
+  { t:'後之視今，亦猶今之視昔。', tag:'哲思', a:'以時間的對稱消解孤獨：今人之悲，古人亦然，後人亦然——斯文因此得以相感。' }
+];
+
+const STORE_KEY = 'lanting_map_progress_v1';
+let done = {};
+try{ done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); }catch(e){ done = {}; }
+const save = ()=> localStorage.setItem(STORE_KEY, JSON.stringify(done));
+const doneCount = ()=> STATIONS.filter(s=>done[s.id]).length;
+
+/* =============== 渲染：地圖節點 =============== */
+const mapWrap = document.getElementById('mapWrap');
+STATIONS.forEach((s,i)=>{
+  const b = document.createElement('button');
+  b.className = 'node ' + s.label;
+  b.style.left = s.pos.x + '%';
+  b.style.top  = s.pos.y + '%';
+  b.dataset.id = s.id;
+  b.setAttribute('aria-label', s.title);
+  b.innerHTML = `<span class="dot">${s.no}</span>
+    <span class="label">
+      <span class="ok">✓</span>
+      <span class="t">${s.name} · ${s.title.length>13? s.title.slice(0,13)+'…' : s.title} <em>${s.kind}</em></span>
+      <span class="s">第 ${i+1} 站 / 共 6 站 · ${s.time}</span>
+    </span>`;
+  b.addEventListener('click', ()=> openModal(s));
+  mapWrap.appendChild(b);
+});
+
+/* =============== 渲染：卡片 =============== */
+const cardsEl = document.getElementById('cards');
+cardsEl.innerHTML = STATIONS.map((s,i)=>`
+  <article class="card reveal" data-card="${s.id}">
+    <span class="ribbon">已完成</span>
+    <div class="card-top">
+      <div class="card-no">${s.no}</div>
+      <div>
+        <h3>${s.name} · ${s.title}</h3>
+        <div class="meta">第 ${i+1} 站 ｜ ${s.kind} ｜ ${s.time}</div>
+      </div>
+    </div>
+    <p>${s.desc}</p>
+    <div class="points">${s.points.map(p=>`<span>${p}</span>`).join('')}</div>
+    <div class="card-actions">
+      <button class="btn-sm btn-open" data-open="${s.id}">開啟學習 ↗</button>
+      <button class="btn-check" data-toggle="${s.id}"><span class="box">✓</span>標記完成</button>
+    </div>
+  </article>`).join('');
+
+/* =============== 渲染：名句 =============== */
+document.getElementById('quotes').innerHTML = QUOTES.map(q=>`
+  <div class="q reveal"><span class="qtag"></span><span class="mark">蘭</span>
+    <div class="qt">${q.t}</div>
+    <div class="qa"><b style="color:var(--cinnabar);letter-spacing:.1em">〔${q.tag}〕</b> ${q.a}</div>
+  </div>`).join('');
+
+/* =============== 渲染：進度清單 =============== */
+document.getElementById('pList').innerHTML = STATIONS.map((s,i)=>`
+  <div class="pitem" data-p="${s.id}">
+    <span class="pno">${s.no}</span>
+    <span class="pt">${s.title}<small>${s.kind} · 第 ${i+1} 站</small></span>
+    <span class="ptick">✓</span>
+  </div>`).join('');
+
+/* =============== 渲染：footer 連結 =============== */
+document.getElementById('footLinks').innerHTML = STATIONS.map((s,i)=>
+  `<a href="${s.url}" target="_blank" rel="noopener">第${['一','二','三','四','五','六'][i]}站 · ${s.title}</a>`).join('');
+
+/* =============== 進度同步 =============== */
+const ringBar = document.getElementById('ringBar');
+const CIRC = 2*Math.PI*80;
+function syncProgress(){
+  const c = doneCount(), pct = Math.round(c/STATIONS.length*100);
+  document.getElementById('navProg').textContent = c+'/6';
+  document.getElementById('mapTag').textContent = `已完成 ${c} / 6 站`;
+  document.getElementById('ringPct').textContent = pct+'%';
+  document.getElementById('ringCnt').textContent = `${c} / 6 站`;
+  ringBar.style.strokeDashoffset = CIRC*(1-c/STATIONS.length);
+  const msgs = ['尚未啟程，點擊地圖出發吧！','初臨蘭亭，曲水方始流動。','漸入佳境，群賢與你同行。','過半之路，思辨與情境交響。','將至終站，流觴已在眼前。','只差一步，短片為你收尾。','六站圓滿！後之視今，亦猶今之視昔。'];
+  document.getElementById('ringMsg').textContent = msgs[c];
+  document.querySelectorAll('.node').forEach(n=> n.classList.toggle('done', !!done[n.dataset.id]));
+  document.querySelectorAll('.card').forEach(cd=>{
+    const on = !!done[cd.dataset.card];
+    cd.classList.toggle('done-card', on);
+    const btn = cd.querySelector('[data-toggle]');
+    btn.classList.toggle('on', on);
+    btn.innerHTML = on ? '<span class="box">✓</span>已完成' : '<span class="box">✓</span>標記完成';
+  });
+  document.querySelectorAll('.pitem').forEach(p=> p.classList.toggle('on', !!done[p.dataset.p]));
+  const vd = document.getElementById('videoDone');
+  vd.textContent = done['p6'] ? '✓ 已完成第六站' : '✓ 標記為已完成';
+  save();
+}
+function toggle(id, quiet){
+  done[id] = !done[id];
+  syncProgress();
+  if(!quiet){
+    const s = STATIONS.find(x=>x.id===id);
+    toast(done[id] ? `已完成「${s.name} · ${s.title}」 進度 ${doneCount()}/6` : `已取消「${s.name}」的完成標記`);
+  }
+}
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-toggle]'); if(t){ toggle(t.dataset.toggle); return; }
+  const o = e.target.closest('[data-open]');  if(o){ openModal(STATIONS.find(s=>s.id===o.dataset.open)); return; }
+  const p = e.target.closest('[data-p]');     if(p){ toggle(p.dataset.p); return; }
+});
+document.getElementById('videoDone').addEventListener('click', ()=> toggle('p6'));
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  done = {}; syncProgress(); toast('進度已重置，重新出發吧！');
+});
+
+/* =============== Modal =============== */
+const modal = document.getElementById('modal');
+let currentId = null;
+function openModal(s){
+  currentId = s.id;
+  document.getElementById('mNo').textContent = s.no;
+  document.getElementById('mTitle').textContent = `${s.name} · ${s.title}`;
+  document.getElementById('mMeta').textContent = `第 ${STATIONS.indexOf(s)+1} 站 ｜ ${s.kind} ｜ ${s.time}`;
+  document.getElementById('mDesc').textContent = s.desc;
+  document.getElementById('mPoints').innerHTML = s.points.map(p=>`<span>${p}</span>`).join('');
+  const prev = document.getElementById('mPreview');
+  const src = s.type==='video' ? (s.embed+'?rel=0') : s.url;
+  prev.innerHTML = `<div class="ph"><div><div class="spin"></div>正在載入${s.type==='video'?'影片':'網站'}預覽…</div></div>
+    <iframe src="${src}" loading="lazy" allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+  const ifr = prev.querySelector('iframe');
+  ifr.addEventListener('load', ()=> prev.querySelector('.ph').style.display='none');
+  setTimeout(()=>{ const ph = prev.querySelector('.ph'); if(ph) ph.style.opacity = '.35'; }, 5000);
+  document.getElementById('mOpen').href = s.url;
+  const d = document.getElementById('mDone');
+  d.textContent = done[s.id] ? '✓ 已完成' : '✓ 標記完成';
+  d.classList.toggle('btn-primary', !done[s.id]);
+  d.classList.toggle('btn-ghost', done[s.id]);
+  document.getElementById('mHint').textContent = s.type==='video'
+    ? '影片來源：YouTube（可全螢幕播放）'
+    : '若內嵌預覽無法顯示，請使用「新視窗開啟」。';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  modal.classList.remove('open');
+  document.getElementById('mPreview').innerHTML='';
+  document.body.style.overflow='';
+  currentId=null;
+}
+modal.addEventListener('click', e=>{ if(e.target.dataset.close!==undefined) closeModal(); });
+document.getElementById('mDone').addEventListener('click', ()=>{
+  if(!currentId) return;
+  toggle(currentId);
+  const d = document.getElementById('mDone');
+  d.textContent = done[currentId] ? '✓ 已完成' : '✓ 標記完成';
+  d.classList.toggle('btn-primary', !done[currentId]);
+  d.classList.toggle('btn-ghost', done[currentId]);
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+document.getElementById('heroVideo').addEventListener('click', ()=> openModal(STATIONS[5]));
+
+/* =============== Toast =============== */
+let toastT;
+function toast(msg){
+  const el = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  el.classList.add('show'); clearTimeout(toastT);
+  toastT = setTimeout(()=> el.classList.remove('show'), 2600);
+}
+
+/* =============== 捲動揭示 =============== */
+const io = new IntersectionObserver(es=>{
+  es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+},{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay = (i%6)*0.06+'s'; io.observe(el); });
+
+/* =============== 導覽列 =============== */
+const nav = document.getElementById('nav');
+const toTop = document.getElementById('toTop');
+addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', scrollY>10);
+  toTop.classList.toggle('show', scrollY>620);
+},{passive:true});
+toTop.addEventListener('click', ()=> scrollTo({top:0, behavior:'smooth'}));
+
+const sections = [...document.querySelectorAll('main section[id]')];
+const navA = [...document.querySelectorAll('.nav-links a')];
+const secIO = new IntersectionObserver(es=>{
+  es.forEach(en=>{
+    if(en.isIntersecting){
+      navA.forEach(a=> a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{threshold:.2, rootMargin:'-25% 0px -55% 0px'});
+sections.forEach(s=> secIO.observe(s));
+
+/* 行動選單 */
+const mm = document.getElementById('mobileMenu');
+mm.innerHTML = navA.map(a=>`<a href="${a.getAttribute('href')}">${a.textContent}</a>`).join('')
+  + `<a href="${STATIONS[5].url}" target="_blank" rel="noopener">▶ 蘭亭集序短片</a>`;
+document.getElementById('burger').addEventListener('click', ()=>{
+  mm.style.display = mm.style.display==='flex' ? 'none' : 'flex';
+});
+mm.addEventListener('click', e=>{ if(e.target.tagName==='A') mm.style.display='none'; });
+
+/* =============== 花瓣動畫 =============== */
+(function(){
+  const cv = document.getElementById('petals');
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,ps=[];
+  function size(){
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio||1, 2);
+    cv.width = r.width*dpr; cv.height = r.height*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    W = r.width; H = r.height;
+    const n = Math.max(10, Math.round(W/46));
+    ps = Array.from({length:n}, ()=>make(true));
+  }
+  function make(init){
+    return { x:Math.random()*W, y: init? Math.random()*H : -20,
+      r: 3+Math.random()*5, sp:.22+Math.random()*.5, sw:.4+Math.random()*1.1,
+      ph: Math.random()*Math.PI*2, rot: Math.random()*Math.PI, vr:(Math.random()-.5)*.014,
+      c: Math.random()<.55 ? 'rgba(240,182,196,' : (Math.random()<.5? 'rgba(247,214,150,' : 'rgba(232,168,160,'),
+      a: .35+Math.random()*.45 };
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      p.y += p.sp; p.ph += .012; p.x += Math.sin(p.ph)*p.sw*.4; p.rot += p.vr;
+      if(p.y > H+20 || p.x > W+30 || p.x < -30) Object.assign(p, make(false));
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.bezierCurveTo(p.r, -p.r*.9, p.r*1.5, p.r*.5, 0, p.r*1.5);
+      ctx.bezierCurveTo(-p.r*1.5, p.r*.5, -p.r, -p.r*.9, 0, 0);
+      ctx.fillStyle = p.c + p.a + ')'; ctx.fill();
+      ctx.restore();
+    });
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  addEventListener('resize', size);
+  size();
+  if(reduce){ draw(); } else { requestAnimationFrame(draw); }
+})();
+
+/* =============== init =============== */
+syncProgress();
+</script>
+</body>
+</html>
